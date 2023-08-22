@@ -1,4 +1,4 @@
-package com.digibatman.ui
+package com.digibatman.ui.general
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
