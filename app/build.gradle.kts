@@ -1,16 +1,20 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.digibatman"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.digibatman"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -30,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -43,10 +47,9 @@ android {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
     packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        resources.excludes.add("META-INF/*")
     }
+
 }
 
 dependencies {
@@ -66,4 +69,34 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+
+    //coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
+
+    //coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.4.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation("com.google.code.gson:gson:2.9.0")
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.46")
+    ksp("com.google.dagger:hilt-compiler:2.46")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+//    implementation("com.google.dagger:hilt-compiler:2.46")
+
+
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+    //navigation
+    implementation("androidx.navigation:navigation-compose:2.7.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-testing:2.7.0")
 }
