@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-//    id("com.google.dagger.hilt.android")
+    id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
 }
@@ -49,6 +49,9 @@ android {
     packaging {
         resources.excludes.add("META-INF/*")
     }
+    kapt {
+        correctErrorTypes = true
+    }
 
 }
 
@@ -86,7 +89,7 @@ dependencies {
 
     //hilt
     implementation("com.google.dagger:hilt-android:2.46")
-    ksp("com.google.dagger:hilt-compiler:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
 //    implementation("com.google.dagger:hilt-compiler:2.46")
 

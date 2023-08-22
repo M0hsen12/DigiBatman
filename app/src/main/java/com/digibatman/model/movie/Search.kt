@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 data class Search(
     @SerializedName("imdbID")
-    val imdbID: String?,
+    val imdbID: String? = null,
     @SerializedName("Poster")
-    val poster: String?,
+    val poster: String? = null,
     @SerializedName("Title")
-    val title: String?,
+    val title: String? = null,
     @SerializedName("Type")
-    val type: String?,
+    val type: String? = null,
     @SerializedName("Year")
-    val year: String?
+    val year: String? = null
 )

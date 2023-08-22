@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class BatmanMovies(
     @SerializedName("Response")
-    val response: String?,
+    val response: String? = null,
     @SerializedName("Search")
-    val search: List<Search?>,
+    val search: List<Search?>? = null,
     @SerializedName("totalResults")
-    val totalResults: String?
+    val totalResults: String? = null
 )
