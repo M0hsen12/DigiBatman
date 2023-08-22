@@ -1,16 +1,17 @@
 package com.digibatman.di.network
 
 
+import com.digibatman.model.movie.BatmanMovies
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiServices {
 
-    @GET("")
-    suspend fun getAllCoins(): Response<String>
+    @GET("/?apikey=3e974fca&s=batman")
+    suspend fun getBatmanMovies(): Response<BatmanMovies>
 
     @GET("")
-    suspend fun getNotifications(): Response<String>
+    suspend fun getDetails(): Response<String>
 
 
 }

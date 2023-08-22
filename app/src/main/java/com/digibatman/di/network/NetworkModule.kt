@@ -28,7 +28,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(client: OkHttpClient): ApiServices {
         return Retrofit.Builder()
-            .baseUrl("https://api.sinatether.com")
+            .baseUrl("https://www.omdbapi.com")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
