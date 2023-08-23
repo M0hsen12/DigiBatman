@@ -6,6 +6,7 @@ const val HomeItemsShadowHeight = 6
 const val HomeItemsCellCount = 2
 
 const val APP_DATABASE = "DigiBatman__database"
+const val ArgItemKey = "ImdbId"
 
 
 

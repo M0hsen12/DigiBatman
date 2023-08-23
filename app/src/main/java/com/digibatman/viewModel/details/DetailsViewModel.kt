@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digibatman.di.database.MovieDAO
 import com.digibatman.di.network.ApiServices
+import com.digibatman.model.details.Details
 import com.digibatman.model.movie.BatmanMovies
 import com.digibatman.model.movie.Search
 import com.digibatman.ui.general.MyApplication
@@ -31,8 +32,8 @@ class DetailsViewModel @Inject constructor(
     val showProgressBar: StateFlow<Boolean> get() = _showProgressBar
     private val _showProgressBar = MutableStateFlow(true)
 
-    private val _movies = MutableStateFlow(BatmanMovies())
-    val movies: StateFlow<BatmanMovies> get() = _movies
+    private val _movieDetails = MutableStateFlow(Details())
+    val movieDetails: StateFlow<Details> get() = _movieDetails
 
     val errorMessage = MutableLiveData<String>()
 
@@ -44,36 +45,36 @@ class DetailsViewModel @Inject constructor(
     }
 
 
-    fun getCapeCrusaderMovies() {
+    fun getMovieDetails(imdbId: String) {
         if (isOnline(context.applicationContext))
-            getMoviesWithApiCall()
+            getDetailsMovieWithApiCall(imdbId)
         else
-            getMoviesFromDatabase()
+            getMoviesDetailsFromDatabase(imdbId)
 
 
     }
 
-    private fun getMoviesFromDatabase() {
+    private fun getMoviesDetailsFromDatabase(imdbId: String) {
         job = viewModelScope.launch(exceptionHandler) {
             val list = ArrayList<Search>()
             movieDAO.getAllMovies().forEach {
                 list.add(entityToBatmanMovies(it))
             }
 
-            _movies.value = BatmanMovies(search = list)
+//            _movieDetails.value = BatmanMovies(search = list)
             _showProgressBar.value = false
 
         }
 
     }
 
-    private fun getMoviesWithApiCall() {
+    private fun getDetailsMovieWithApiCall(imdbId: String) {
         job = viewModelScope.launch(exceptionHandler) {
-            val response = apiServices.getBatmanMovies()
+            val response = apiServices.getDetails(imdbId)
             if (response.isSuccessful) {
-                _movies.value = response.body() ?: BatmanMovies()
+                _movieDetails.value = response.body() ?: Details()
                 _showProgressBar.value = false
-                saveTheResponse(response.body())
+//                saveTheResponse(response.body())
             } else {
                 errorMessage.value = response.message()
             }
