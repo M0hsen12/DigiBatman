@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.digibatman.ui.composable.home.SetupHomeList
 import com.digibatman.ui.composable.reusables.DisplayProgressbar
+import com.digibatman.util.Screens
 import com.digibatman.viewModel.home.HomeViewModel
 
 @Composable
@@ -26,7 +27,12 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel) {
     Column(Modifier.fillMaxSize()) {
 
         if (movies.value.search?.isNotEmpty() == true)
-            SetupHomeList(movies.value)
+            SetupHomeList(value = movies.value, onItemClick = {
+                navController.currentBackStackEntry?.savedStateHandle?.apply {
+                    set("ImdbId", it)
+                }
+                navController.navigate(Screens.Details.route)
+            })
     }
 }
 

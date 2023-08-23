@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.digibatman.ui.details.DetailScreen
 import com.digibatman.ui.home.HomeScreen
+import com.digibatman.viewModel.details.DetailsViewModel
 import com.digibatman.viewModel.home.HomeViewModel
 
 
@@ -26,6 +27,7 @@ fun MainNavigation(
 ) {
 
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val detailsViewModel: DetailsViewModel = hiltViewModel()
     NavHost(
         navController = navController,
         startDestination = Screens.Home.route,
@@ -35,7 +37,7 @@ fun MainNavigation(
             HomeScreen(navController, homeViewModel)
         }
         composable(Screens.Details.route) {
-            DetailScreen(navController)
+            DetailScreen(navController, detailsViewModel)
         }
 
 

@@ -1,6 +1,7 @@
 package com.digibatman.ui.composable.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +26,7 @@ import com.digibatman.util.HomeItemsShadowHeight
 import com.digibatman.util.getHeightOfScreen
 
 @Composable
-fun SetupHomeList(value: BatmanMovies) {
+fun SetupHomeList(value: BatmanMovies, onItemClick: (imdbId: String) -> Unit) {
     LazyVerticalGrid(columns = GridCells.Fixed(HomeItemsCellCount), content = {
         items(value.search.orEmpty().size) { index ->
             val movie = value.search.orEmpty()[index]
@@ -34,7 +35,11 @@ fun SetupHomeList(value: BatmanMovies) {
                     .fillMaxWidth()
                     .height(height = getHeightOfScreen().div(HomeItemsHeight).dp)
                     .padding(0.5.dp)
-                    .background(color = Color.Red), contentAlignment = Alignment.BottomCenter
+                    .background(color = Color.Red)
+                    .clickable {
+                        onItemClick.invoke(movie?.imdbID ?: "")
+                    },
+                contentAlignment = Alignment.BottomCenter
             ) {
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth(),
