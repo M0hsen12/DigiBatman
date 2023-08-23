@@ -54,4 +54,6 @@ data class Details(
     val writer: String? = null,
     @SerializedName("Year")
     val year: String? = null
-)
+) {
+    fun isOkToContinue() = imdbID?.isNotEmpty()
+}

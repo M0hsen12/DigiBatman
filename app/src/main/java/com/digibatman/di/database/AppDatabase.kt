@@ -2,8 +2,8 @@ package com.digibatman.di.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.digibatman.di.database.detail.DetailsEntity
 import com.digibatman.di.database.details.DetailsDAO
-import com.digibatman.di.database.details.DetailsEntity
 import com.digibatman.di.database.movie.MovieDAO
 import com.digibatman.di.database.movie.MovieEntity
 

@@ -1,5 +1,6 @@
 package com.digibatman.ui.details
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,6 +24,9 @@ fun DetailScreen(navController: NavHostController, viewModel: DetailsViewModel) 
 
     val movieDetailsState = viewModel.movieDetails.collectAsState()
 
-    DetailsView(movieDetailsState)
+    if (movieDetailsState.value.isOkToContinue() == true) {
+        Log.e("eee", "DetailScreen: shet is not null")
+        DetailsView(movieDetailsState)
+    }
 
 }

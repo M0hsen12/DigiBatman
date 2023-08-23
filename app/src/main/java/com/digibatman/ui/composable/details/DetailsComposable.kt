@@ -1,5 +1,6 @@
 package com.digibatman.ui.composable.details
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,10 +35,11 @@ fun DetailsView(movieDetailsState: State<Details>) {
             .fillMaxSize()
             .background(Color.Red), contentAlignment = Alignment.BottomCenter
     ) {
+        Log.e("TAG", "DetailsView: shet")
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             model = movieDetailsState.value.poster ?: "",
-            contentDescription = null,
+            contentDescription = movieDetailsState.value.imdbID,
             contentScale = ContentScale.Crop,
         )
         Column(

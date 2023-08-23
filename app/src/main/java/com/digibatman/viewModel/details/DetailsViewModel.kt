@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digibatman.di.database.movie.MovieDAO
+import com.digibatman.di.database.details.DetailsDAO
 import com.digibatman.di.network.ApiServices
 import com.digibatman.model.details.Details
-import com.digibatman.model.movie.BatmanMovies
-import com.digibatman.model.movie.Search
 import com.digibatman.ui.general.MyApplication
-import com.digibatman.util.batmanMoviesToEntity
-import com.digibatman.util.entityToBatmanMovies
+import com.digibatman.util.detailEntityToDetails
 import com.digibatman.util.isOnline
+import com.digibatman.util.movieDetailToEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -24,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val apiServices: ApiServices,
-    private val movieDAO: MovieDAO,
+    private val detailsDao: DetailsDAO,
     private val context: MyApplication
 ) : ViewModel() {
 
@@ -56,13 +54,12 @@ class DetailsViewModel @Inject constructor(
 
     private fun getMoviesDetailsFromDatabase(imdbId: String) {
         job = viewModelScope.launch(exceptionHandler) {
-            val list = ArrayList<Search>()
-            movieDAO.getAllMovies().forEach {
-                list.add(entityToBatmanMovies(it))
-            }
+            val details = detailsDao.findMovieDetails(imdbId)
+            if (details.detailImdbId.isNotEmpty()) {
+                _movieDetails.value = detailEntityToDetails(details)
+                _showProgressBar.value = false
 
-//            _movieDetails.value = BatmanMovies(search = list)
-            _showProgressBar.value = false
+            }
 
         }
 
@@ -74,23 +71,18 @@ class DetailsViewModel @Inject constructor(
             if (response.isSuccessful) {
                 _movieDetails.value = response.body() ?: Details()
                 _showProgressBar.value = false
-//                saveTheResponse(response.body())
+                saveTheResponse(response.body())
             } else {
                 errorMessage.value = response.message()
             }
         }
     }
 
-    private fun saveTheResponse(movies: BatmanMovies?) {
+    private fun saveTheResponse(details: Details?) {
         viewModelScope.launch(exceptionHandler) {
-            movies?.search.orEmpty().forEach {
-                movieDAO.addMovie( // if there is conflict it will be replaced
-                    batmanMoviesToEntity(
-                        it ?: Search()
-                    )
-                )
-            }
-            Log.e("TAG", "saveTheResponse: ${movieDAO.getAllMovies().size}")
+            detailsDao.addDetails( // if there is conflict it will be replaced too
+                movieDetailToEntity(details ?: Details())
+            )
         }
     }
 

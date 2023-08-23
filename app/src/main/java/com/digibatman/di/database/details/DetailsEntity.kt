@@ -1,30 +1,30 @@
-package com.digibatman.di.database.details
+package com.digibatman.di.database.detail
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "details")
+@Entity(tableName = "detail")
 class DetailsEntity(
     @PrimaryKey
-    @ColumnInfo(name = "detailsImdbId")
-    var detailsImdbId: String,
-    @ColumnInfo(name = "detailsTitle")
-    var detailsTitle: String,
-    @ColumnInfo(name = "detailsPoster")
-    var detailsPoster: String,
-    @ColumnInfo(name = "detailsType")
-    var detailsType: String,
-    @ColumnInfo(name = "detailsYear")
-    var detailsYear: String,
-    @ColumnInfo(name = "detailsPlot")
-    var detailsPlot: String,
-    @ColumnInfo(name = "detailsRated")
-    var detailsRated: String,
-    @ColumnInfo(name = "detailsRuntime")
-    var detailsRuntime: String,
-    @ColumnInfo(name = "detailsLang")
-    var detailsLang: String,
+    @ColumnInfo(name = "detailImdbId")
+    var detailImdbId: String,
+    @ColumnInfo(name = "detailTitle")
+    var detailTitle: String,
+    @ColumnInfo(name = "detailPoster")
+    var detailPoster: String,
+    @ColumnInfo(name = "detailType")
+    var detailType: String,
+    @ColumnInfo(name = "detailYear")
+    var detailYear: String,
+    @ColumnInfo(name = "detailPlot")
+    var detailPlot: String,
+    @ColumnInfo(name = "detailRated")
+    var detailRated: String,
+    @ColumnInfo(name = "detailRuntime")
+    var detailRuntime: String,
+    @ColumnInfo(name = "detailLang")
+    var detailLang: String,
 
 
     )
