@@ -8,7 +8,10 @@ import com.digibatman.di.database.MovieDAO
 import com.digibatman.di.network.ApiServices
 import com.digibatman.model.movie.BatmanMovies
 import com.digibatman.model.movie.Search
+import com.digibatman.ui.general.MyApplication
 import com.digibatman.util.batmanMoviesToEntity
+import com.digibatman.util.entityToBatmanMovies
+import com.digibatman.util.isOnline
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -20,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val apiServices: ApiServices,
-    private val movieDAO: MovieDAO
+    private val movieDAO: MovieDAO,
+    private val context: MyApplication
 ) : ViewModel() {
 
 
@@ -41,6 +45,29 @@ class HomeViewModel @Inject constructor(
 
 
     fun getCapeCrusaderMovies() {
+        if (isOnline(context.applicationContext))
+            getMoviesWithApiCall()
+        else
+            getMoviesFromDatabase()
+
+
+    }
+
+    private fun getMoviesFromDatabase() {
+        job = viewModelScope.launch(exceptionHandler) {
+            val list = ArrayList<Search>()
+            movieDAO.getAllMovies().forEach {
+                list.add(entityToBatmanMovies(it))
+            }
+
+            _movies.value = BatmanMovies(search = list)
+            _showProgressBar.value = false
+
+        }
+
+    }
+
+    private fun getMoviesWithApiCall() {
         job = viewModelScope.launch(exceptionHandler) {
             val response = apiServices.getBatmanMovies()
             if (response.isSuccessful) {
@@ -56,12 +83,13 @@ class HomeViewModel @Inject constructor(
     private fun saveTheResponse(movies: BatmanMovies?) {
         viewModelScope.launch(exceptionHandler) {
             movies?.search.orEmpty().forEach {
-                movieDAO.addMovie(
+                movieDAO.addMovie( // if there is conflict it will be replaced
                     batmanMoviesToEntity(
                         it ?: Search()
                     )
-                ) // if there is conflict it will be replaced
+                )
             }
+            Log.e("TAG", "saveTheResponse: ${movieDAO.getAllMovies().size}")
         }
     }
 
