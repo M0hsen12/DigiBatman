@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digibatman.di.database.MovieDAO
 import com.digibatman.di.network.ApiServices
 import com.digibatman.model.movie.BatmanMovies
+import com.digibatman.model.movie.Search
+import com.digibatman.util.batmanMoviesToEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -17,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val apiServices: ApiServices,
+    private val movieDAO: MovieDAO
 ) : ViewModel() {
 
 
@@ -40,11 +44,23 @@ class HomeViewModel @Inject constructor(
         job = viewModelScope.launch(exceptionHandler) {
             val response = apiServices.getBatmanMovies()
             if (response.isSuccessful) {
-                Log.e("eee", "getCapeCrusaderMovies: ${response.body()?.totalResults}")
                 _movies.value = response.body() ?: BatmanMovies()
                 _showProgressBar.value = false
+                saveTheResponse(response.body())
             } else {
                 errorMessage.value = response.message()
+            }
+        }
+    }
+
+    private fun saveTheResponse(movies: BatmanMovies?) {
+        viewModelScope.launch(exceptionHandler) {
+            movies?.search.orEmpty().forEach {
+                movieDAO.addMovie(
+                    batmanMoviesToEntity(
+                        it ?: Search()
+                    )
+                ) // if there is conflict it will be replaced
             }
         }
     }
