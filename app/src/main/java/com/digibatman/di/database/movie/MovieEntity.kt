@@ -1,4 +1,4 @@
-package com.digibatman.di.database
+package com.digibatman.di.database.movie
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

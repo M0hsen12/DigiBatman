@@ -1,6 +1,6 @@
 package com.digibatman.util
 
-import com.digibatman.di.database.MovieEntity
+import com.digibatman.di.database.movie.MovieEntity
 import com.digibatman.model.movie.Search
 
 fun batmanMoviesToEntity(movies: Search): MovieEntity {

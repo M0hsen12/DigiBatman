@@ -1,4 +1,4 @@
-package com.digibatman.di.database
+package com.digibatman.di.database.movie
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -10,8 +10,8 @@ interface MovieDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMovie(movie: MovieEntity)
 
-    @Query("SELECT * FROM movies WHERE  movieTitle= :movieName")
-    fun findMovie(movieName: String): MovieEntity
+    @Query("SELECT * FROM movies WHERE  movieImdbId= :imdbID")
+    fun findMovie(imdbID: String): MovieEntity
 
     @Query("SELECT * FROM movies")
     fun getAllMovies(): List<MovieEntity>

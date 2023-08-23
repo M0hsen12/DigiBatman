@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digibatman.di.database.MovieDAO
+import com.digibatman.di.database.movie.MovieDAO
 import com.digibatman.di.network.ApiServices
 import com.digibatman.model.movie.BatmanMovies
 import com.digibatman.model.movie.Search

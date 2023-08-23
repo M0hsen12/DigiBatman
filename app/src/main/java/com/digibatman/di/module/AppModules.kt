@@ -29,7 +29,11 @@ object AppModules {
 
     @Singleton
     @Provides
-    fun provideMovieDao(db: AppDatabase) = db.searchHistoryDAO()
+    fun provideMovieDao(db: AppDatabase) = db.MovieDAO()
+
+    @Singleton
+    @Provides
+    fun provideDetailsDao(db: AppDatabase) = db.detailsDAO()
 
     @Provides
     fun providesMainApplicationInstance(@ApplicationContext context: Context): MyApplication {
