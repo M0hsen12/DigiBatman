@@ -1,6 +1,5 @@
 package com.digibatman.viewModel.details
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +37,6 @@ class DetailsViewModel @Inject constructor(
     var job: Job? = null
 
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e("eee", "on exepetion $throwable:")
         errorMessage.value = throwable.message
     }
 

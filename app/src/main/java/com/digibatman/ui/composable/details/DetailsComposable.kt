@@ -1,6 +1,5 @@
 package com.digibatman.ui.composable.details
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,8 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +22,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import com.digibatman.R
 import com.digibatman.model.details.Details
 import com.digibatman.ui.theme.DetailItemGradient
 import com.digibatman.util.DetailItemsFontSize
@@ -32,13 +35,17 @@ import com.digibatman.util.getHeightOfScreen
 fun DetailsView(movieDetailsState: State<Details>) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Red), contentAlignment = Alignment.BottomCenter
+            .fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
     ) {
-        Log.e("TAG", "DetailsView: shet")
         AsyncImage(
+            placeholder = painterResource(id = R.drawable.placeholder),
             modifier = Modifier.fillMaxWidth(),
-            model = movieDetailsState.value.poster ?: "",
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(movieDetailsState.value.poster ?: "")
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .build(),
             contentDescription = movieDetailsState.value.imdbID,
             contentScale = ContentScale.Crop,
         )

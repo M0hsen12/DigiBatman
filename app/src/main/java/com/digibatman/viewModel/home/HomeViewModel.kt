@@ -1,6 +1,5 @@
 package com.digibatman.viewModel.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -39,7 +38,6 @@ class HomeViewModel @Inject constructor(
     var job: Job? = null
 
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e("eee", "on exepetion $throwable:")
         errorMessage.value = throwable.message
     }
 
@@ -89,7 +87,6 @@ class HomeViewModel @Inject constructor(
                     )
                 )
             }
-            Log.e("TAG", "saveTheResponse: ${movieDAO.getAllMovies().size}")
         }
     }
 
