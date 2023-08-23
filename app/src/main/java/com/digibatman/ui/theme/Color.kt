@@ -15,3 +15,7 @@ val HomeItemGradient = Brush.verticalGradient(
     listOf(Color.Transparent, Color(0xFF000000), Color(0xFF000000)),
     startY = 1F
 )
+val DetailItemGradient = Brush.verticalGradient(
+    listOf(Color.Transparent, Color(0xF3000000), Color(0xFF000000)),
+    startY = 1F
+)
